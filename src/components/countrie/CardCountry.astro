@@ -1,0 +1,36 @@
+---
+import type { CardCountry } from "../../global"
+
+interface Props {
+	country: CardCountry
+}
+
+const { country } = Astro.props
+const { alpha3Code, flags, name, population, region, capital } = country
+---
+
+<div class="dark:bg-dark-100">
+	<a href={`/${alpha3Code}`} class="relative max-w-full overflow-hidden">
+		<picture class="">
+			<img src={flags.svg} alt="" class="aspect-video max-h-40 w-full object-cover" />
+		</picture>
+	</a>
+
+	<div class="px-6 pb-10 pt-6 text-white">
+		<h2 class="mb-4 text-lg font-extrabold">{name}</h2>
+
+		<div
+			class="space-y-2 [&>div>span]:font-semibold [&>div]:text-sm [&>div]:font-light [&>div]:leading-4"
+		>
+			<div>
+				<span>Population</span>: {population}
+			</div>
+			<div>
+				<span>Region</span>: {region}
+			</div>
+			<div>
+				<span>Capital</span>: {capital}
+			</div>
+		</div>
+	</div>
+</div>
