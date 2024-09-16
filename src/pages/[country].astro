@@ -1,0 +1,116 @@
+---
+import Layout from "../layout/Layout.astro"
+import CountriesData from "../mooks/countries-info.json"
+
+const countries = CountriesData?.countries
+if (!countries) {
+	console.error("No countries data found")
+}
+
+const { country } = Astro.params
+
+const countryData = countries.find((c) => c.alpha3Code === country)
+if (!countryData) {
+	return {
+		status: 404,
+	}
+}
+---
+
+<Layout title="Detail country">
+	<section>
+		<div class="flex flex-col gap-y-20">
+			<a
+				href="/"
+				class="inline-flex max-w-36 items-center justify-center space-x-2 rounded-md bg-dark-100 px-4 py-2 text-white hover:bg-dark-100/40 hover:text-white/50"
+			>
+				<div class="h-5 w-5">
+					<span class="h-full w-full [&>svg]:h-full [&>svg]:w-full">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 24 24"
+							fill="currentColor"
+							class="size-6"
+						>
+							<path
+								fill-rule="evenodd"
+								d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z"
+								clip-rule="evenodd"></path>
+						</svg>
+					</span>
+				</div>
+				<span>Back</span>
+			</a>
+
+			<article class="flex flex-wrap items-center justify-between gap-x-8 lg:flex-nowrap">
+				<picture class="max-w-xl overflow-hidden rounded-xl">
+					<img
+						src={countryData.flags.svg}
+						alt=""
+						class="aspect-video w-full max-w-full object-cover"
+					/>
+				</picture>
+
+				<div class="w-full max-w-xl px-5 text-white lg:px-0">
+					<h2 class="mb-6 text-4xl font-extrabold">{countryData.name}</h2>
+
+					<div class="mb-10 flex items-start justify-between gap-x-5 gap-y-10">
+						<div
+							class="space-y-2 [&>div>span]:font-semibold [&>div]:text-base [&>div]:font-light [&>div]:leading-4"
+						>
+							<div>
+								<span>Native Name</span>: {countryData.nativeName}
+							</div>
+							<div>
+								<span>Population</span>: {countryData.nativeName}
+							</div>
+							<div>
+								<span>Region</span>: {countryData.region}
+							</div>
+							<div>
+								<span>Sub Region</span>: {countryData.subregion}
+							</div>
+							<div>
+								<span>Capital</span>: {countryData.capital}
+							</div>
+						</div>
+
+						<div
+							class="space-y-2 [&>div>span]:font-semibold [&>div]:text-base [&>div]:font-light [&>div]:leading-4"
+						>
+							<div>
+								<span>Top Level Domain</span>: {countryData.topLevelDomain}
+							</div>
+							<div>
+								<span>Currencies</span>: {countryData.currencies?.map((c) => c.name).join(", ")}
+							</div>
+							<div>
+								<span>Languages</span>: {countryData.languages?.map((l) => l.name).join(", ")}
+							</div>
+						</div>
+					</div>
+
+					<div class="flex gap-x-4">
+						<span class="whitespace-nowrap text-base">Border Countries</span>:
+						<ul class="inline-flex flex-wrap gap-2">
+							{
+								countryData.borders?.map((border) => (
+									<li>
+										<a
+											href={`/${border}`}
+											class="inline-block rounded-md bg-dark-100 px-4 py-2 text-white hover:bg-dark-100/40 hover:text-white/50"
+										>
+											<span class="whitespace-nowrap">
+												{countries.find((c) => c.alpha3Code === border)?.name}
+											</span>
+										</a>
+									</li>
+								))
+							}
+						</ul>
+					</div>
+				</div>
+			</article>
+		</div>
+	</section>
+</Layout>
