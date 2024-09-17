@@ -90,25 +90,27 @@ if (!countryData) {
 						</div>
 					</div>
 
-					<div class="flex gap-x-4">
-						<span class="whitespace-nowrap text-base">Border Countries</span>:
-						<ul class="inline-flex flex-wrap gap-2">
-							{
-								countryData.borders?.map((border) => (
-									<li>
-										<a
-											href={`/${border}`}
-											class="inline-block rounded-md bg-dark-100 px-4 py-2 text-white hover:bg-dark-100/40 hover:text-white/50"
-										>
-											<span class="whitespace-nowrap">
-												{countries.find((c) => c.alpha3Code === border)?.name}
-											</span>
-										</a>
-									</li>
-								))
-							}
-						</ul>
-					</div>
+					{
+						countryData.borders && (
+							<div class="flex gap-x-4">
+								<span class="whitespace-nowrap text-base">Border Countries</span>:
+								<ul class="inline-flex flex-wrap gap-2">
+									{countryData.borders.map((border) => (
+										<li>
+											<a
+												href={`/${border}`}
+												class="inline-block rounded-md bg-dark-100 px-4 py-2 text-white hover:bg-dark-100/40 hover:text-white/50"
+											>
+												<span class="whitespace-nowrap">
+													{countries.find((c) => c.alpha3Code === border)?.name}
+												</span>
+											</a>
+										</li>
+									))}
+								</ul>
+							</div>
+						)
+					}
 				</div>
 			</article>
 		</div>
