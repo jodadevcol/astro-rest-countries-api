@@ -1,5 +1,5 @@
 import CountriesData from "../mooks/countries-info.v3.1.json"
-import type { Country } from "../types/countries.v3.1"
+import type { Country, Name } from "../types/countries.v3.1"
 
 // const STORAGE_COUNTRY_ID = "__countries__data__"
 
@@ -93,6 +93,61 @@ const GETAllCountriesLocal = async (): Promise<Country[]> => {
 
 	const returData = [...mappingCountries].sort((a, b) => a.name.common.localeCompare(b.name.common))
 	return returData
+}
+
+const GETCountryLocalByCode = async ({
+	code,
+}: {
+	code: string | number
+}): Promise<Country | false | undefined> => {
+	const countries = CountriesData?.countries as Country[]
+	if (!countries) {
+		console.error("One problem with the local data")
+
+		return false
+	}
+
+	if (!code) {
+		console.error("You must have a country code")
+
+		return false
+	}
+
+	const countryData = countries.find((c) => c.cca3 === code)
+	if (!countryData) return false
+
+	return countryData
+}
+
+const GETNameCountriesLocalByBorder = async ({ code }: { code: string[] }): Promise<Name[]> => {
+	const countries = CountriesData?.countries as Country[]
+	if (!countries) {
+		console.error("One problem with the local data")
+
+		return []
+	}
+
+	if (!code) {
+		console.error("You must have a country code")
+
+		return []
+	}
+
+	const bordersInfo = code.map((borderCode) => {
+		const nameCountry = countries.find((c) => c.cca3 === borderCode)
+
+		if (nameCountry?.name !== undefined) {
+			return {
+				code: borderCode,
+				common: nameCountry.name.common,
+				official: nameCountry.name.official,
+				nativeName: nameCountry.name.nativeName,
+			}
+		}
+	}) as Name[]
+
+	if (!bordersInfo || bordersInfo === undefined) return []
+	return bordersInfo
 }
 
 const GETAllCountries = async ({ offset = 0 }): Promise<Country[]> => {
@@ -211,4 +266,11 @@ const GETCountryByCode = async ({ code }: { code: string | number }) => {
 	return data
 }
 
-export { GETAllCountries, GETAllCountriesLocal, GETCountryByCode }
+export {
+	GETAllCountries,
+	GETAllCountriesLocal,
+	GETCountryByCode,
+	GETCountryLocalByCode,
+	GETNameCountriesLocalByBorder,
+}
+

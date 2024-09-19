@@ -17,6 +17,7 @@ export interface Country {
 	translations: Translations
 	latlng: number[]
 	landlocked: boolean
+	borders?: string[]
 	area: number
 	demonyms: Demonyms
 	flag: string
@@ -42,6 +43,7 @@ export interface CountryCard {
 }
 
 export interface Name {
+	code?: string
 	common: string
 	official: string
 	nativeName: NativeName
