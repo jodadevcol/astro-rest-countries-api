@@ -5,7 +5,8 @@ import { SELECT_REGIONS } from "../const/filters"
 <div class="relative z-10 flex items-center justify-between">
 	<div class="input-country w-full max-w-md">
 		<div
-			class="flex items-center justify-start gap-x-6 rounded-md px-8 py-4 text-white dark:bg-dark-100"
+			class="flex items-center justify-start gap-x-6 rounded-md bg-white px-8 py-4 text-light-100 dark:bg-dark-100 dark:text-white"
+			style="filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.05));"
 		>
 			<span class="icon-search size-5">
 				<svg
@@ -27,14 +28,15 @@ import { SELECT_REGIONS } from "../const/filters"
 			<input
 				type="text"
 				placeholder="Search for a country..."
-				class="w-full max-w-full appearance-none border-none bg-inherit outline-none dark:text-white dark:placeholder-white"
+				class="imelilig w-full max-w-full appearance-none border-none bg-inherit outline-none dark:text-white dark:placeholder-white"
 			/>
 		</div>
 	</div>
 
 	<div class="selector-region relative w-full max-w-52">
 		<button
-			class="flex w-full max-w-full items-center justify-between rounded-md bg-white px-6 py-4 text-left text-white dark:bg-dark-100"
+			class="text-light-100-100 flex w-full max-w-full items-center justify-between rounded-md bg-white px-6 py-4 text-left dark:bg-dark-100 dark:text-white"
+			style="filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.05));"
 			data-click-event="click/regionSelector"
 		>
 			<span class="text-base" data-select-name="">Filter by Region</span>
@@ -57,7 +59,10 @@ import { SELECT_REGIONS } from "../const/filters"
 		<div
 			class="absolute -bottom-1 left-0 right-0 hidden w-full max-w-full translate-y-full opacity-0"
 		>
-			<ul class="space-y-2 rounded-md bg-dark-100 px-6 py-4 text-white">
+			<ul
+				class="space-y-2 rounded-md bg-white px-6 py-4 text-light-100 dark:bg-dark-100 dark:text-white"
+				style="filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.05));"
+			>
 				{
 					SELECT_REGIONS.map((region) => {
 						return (

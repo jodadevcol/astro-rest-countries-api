@@ -9,14 +9,14 @@ const { country } = Astro.props
 const { name, cca3, region, capital, population, flags } = country
 ---
 
-<div class="h-full dark:bg-dark-100">
+<div class="h-full bg-white dark:bg-dark-100">
 	<a href={`/${cca3}`} class="relative max-w-full overflow-hidden">
 		<picture class="">
 			<img src={flags.svg} alt="" class="aspect-video max-h-40 w-full object-cover" />
 		</picture>
 	</a>
 
-	<div class="px-6 pb-10 pt-6 text-white">
+	<div class="px-6 pb-10 pt-6 text-light-100 dark:text-white">
 		<h2 class="mb-4 text-lg font-extrabold">{name.common}</h2>
 
 		<div

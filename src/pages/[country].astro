@@ -22,7 +22,8 @@ if (!countryData) {
 		<div class="flex flex-col gap-y-20">
 			<a
 				href="/"
-				class="inline-flex max-w-36 items-center justify-center space-x-2 rounded-md bg-dark-100 px-4 py-2 text-white hover:bg-dark-100/40 hover:text-white/50"
+				class="inline-flex max-w-36 items-center justify-center space-x-2 rounded-md bg-white px-4 py-2 text-light-100 hover:bg-white/80 hover:text-light-100/60 dark:bg-dark-100 dark:text-white dark:hover:bg-dark-100/40"
+				style="filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.05));"
 			>
 				<div class="h-5 w-5">
 					<span class="h-full w-full [&>svg]:h-full [&>svg]:w-full">
@@ -43,15 +44,13 @@ if (!countryData) {
 			</a>
 
 			<article class="flex flex-wrap items-center justify-between gap-x-8 lg:flex-nowrap">
-				<picture class="max-w-xl overflow-hidden rounded-xl">
-					<img
-						src={countryData.flags.svg}
-						alt=""
-						class="aspect-video w-full max-w-full object-cover"
-					/>
-				</picture>
+				<div class="flex w-full max-w-xl items-center justify-center">
+					<picture class="overflow-hidden rounded-xl">
+						<img src={countryData.flags.svg} alt="" class="max-h-96 object-contain" />
+					</picture>
+				</div>
 
-				<div class="w-full max-w-xl px-5 text-white lg:px-0">
+				<div class="w-full max-w-xl px-5 text-light-100 dark:text-white lg:px-0">
 					<h2 class="mb-6 text-4xl font-extrabold">{countryData.name}</h2>
 
 					<div class="mb-10 flex items-start justify-between gap-x-5 gap-y-10">
@@ -93,13 +92,17 @@ if (!countryData) {
 					{
 						countryData.borders && (
 							<div class="flex gap-x-4">
-								<span class="whitespace-nowrap text-base">Border Countries</span>:
+								<span class="whitespace-nowrap text-base font-semibold">Border Countries</span>:
 								<ul class="inline-flex flex-wrap gap-2">
 									{countryData.borders.map((border) => (
-										<li>
+										<li
+											class="dark:drop-shadow-none"
+											style="filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.05));"
+										>
 											<a
 												href={`/${border}`}
-												class="inline-block rounded-md bg-dark-100 px-4 py-2 text-white hover:bg-dark-100/40 hover:text-white/50"
+												class="inline-block rounded-md bg-white px-4 py-2 text-light-100 hover:bg-white/80 hover:text-light-100/60 dark:bg-dark-100 dark:text-white dark:hover:bg-dark-100/40"
+												class="inline-flex max-w-36 items-center justify-center space-x-2 rounded-md bg-white px-4 py-2 text-light-100 hover:bg-white/80 hover:text-light-100/60 dark:bg-dark-100 dark:text-white dark:hover:bg-dark-100/40"
 											>
 												<span class="whitespace-nowrap">
 													{countries.find((c) => c.alpha3Code === border)?.name}
