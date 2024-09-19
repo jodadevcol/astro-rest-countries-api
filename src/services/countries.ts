@@ -91,7 +91,8 @@ const GETAllCountriesLocal = async (): Promise<Country[]> => {
 		}
 	})
 
-	return mappingCountries
+	const returData = [...mappingCountries].sort((a, b) => a.name.common.localeCompare(b.name.common))
+	return returData
 }
 
 const GETAllCountries = async ({ offset = 0 }): Promise<Country[]> => {
