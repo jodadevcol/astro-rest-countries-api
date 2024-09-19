@@ -30,9 +30,35 @@ import MoonSolid from "./icons/MoonSolid.astro"
 </header>
 
 <script>
-	const darkModeButton = document.querySelector("[data-click-event='event/darkmode']")
+	function hasDarkMode() {
+		return window.localStorage.getItem("__DARK_MODE__") === "true" ? true : false
+	}
 
-	darkModeButton?.addEventListener("click", () => {
-		document.documentElement.classList.toggle("dark")
+	function setDarkMode({ isDark }: { isDark: boolean }) {
+		if (!isDark) {
+			document.documentElement.classList.remove("dark")
+			window.localStorage.setItem("__DARK_MODE__", "false")
+		} else {
+			document.documentElement.classList.add("dark")
+			window.localStorage.setItem("__DARK_MODE__", "true")
+		}
+	}
+
+	document.addEventListener("astro:after-swap", () => {
+		setDarkMode({ isDark: hasDarkMode() })
 	})
+
+	document.addEventListener("astro:page-load", () => {
+		setDarkMode({ isDark: hasDarkMode() })
+		const darkModeButton = document.querySelector("[data-click-event='event/darkmode']")
+
+		darkModeButton?.addEventListener("click", () => {
+			document.documentElement.classList.toggle("dark")
+
+			const containsDark = document.documentElement.classList.contains("dark")
+			setDarkMode({ isDark: containsDark })
+		})
+	})
+
+	setDarkMode({ isDark: hasDarkMode() })
 </script>

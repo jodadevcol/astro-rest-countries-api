@@ -12,7 +12,12 @@ const { name, cca3, region, capital, population, flags } = country
 <div class="h-full bg-white dark:bg-dark-100">
 	<a href={`/${cca3}`} class="relative max-w-full overflow-hidden">
 		<picture class="">
-			<img src={flags.svg} alt="" class="aspect-video max-h-40 w-full object-cover" />
+			<img
+				src={flags.svg}
+				alt=""
+				class="aspect-video max-h-40 w-full object-cover"
+				transition:name={`flag-image-${cca3}`}
+			/>
 		</picture>
 	</a>
 

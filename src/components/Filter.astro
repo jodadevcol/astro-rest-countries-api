@@ -82,57 +82,56 @@ import { SELECT_REGIONS } from "../const/filters"
 <script>
 	import { SELECT_REGIONS } from "../const/filters"
 	// this needs to use a ViewTransition to working properly
-	// document.addEventListener("astro:page-load", () => {
-	// })
+	document.addEventListener("astro:page-load", () => {
+		function setNameSelect({ select, value }: { select: HTMLElement; value: string }) {
+			if (!select) return
 
-	function setNameSelect({ select, value }: { select: HTMLElement; value: string }) {
-		if (!select) return
+			const selectName = select.querySelector("[data-select-name]")
+			if (!selectName) return
 
-		const selectName = select.querySelector("[data-select-name]")
-		if (!selectName) return
+			const newValue = SELECT_REGIONS.find((region) => region.value === value)?.name
+			const newName = newValue ? newValue : "Filter by Region"
 
-		const newValue = SELECT_REGIONS.find((region) => region.value === value)?.name
-		const newName = newValue ? newValue : "Filter by Region"
+			selectName.textContent = newName
+		}
 
-		selectName.textContent = newName
-	}
+		const objURL = new URL(window.location.origin)
 
-	const objURL = new URL(window.location.origin)
+		const selectRegion = document.querySelector(
+			"[data-click-event='click/regionSelector']"
+		) as HTMLElement
+		if (!selectRegion) console.error("Region selector not found")
 
-	const selectRegion = document.querySelector(
-		"[data-click-event='click/regionSelector']"
-	) as HTMLElement
-	if (!selectRegion) console.error("Region selector not found")
-
-	selectRegion?.addEventListener("click", (event) => {
-		event.preventDefault()
-		const selectRegionsBox = selectRegion.nextElementSibling
-
-		selectRegionsBox?.classList.toggle("hidden")
-		selectRegionsBox?.classList.toggle("opacity-0")
-	})
-
-	const choicesRegion = document.querySelectorAll(
-		"[data-click-event^='value/region-']"
-	) as NodeListOf<HTMLElement>
-	if (!choicesRegion) console.error("Region options not found")
-
-	choicesRegion?.forEach((choice) => {
-		choice.addEventListener("click", (event) => {
+		selectRegion?.addEventListener("click", (event) => {
 			event.preventDefault()
+			const selectRegionsBox = selectRegion.nextElementSibling
 
-			const hasValueChoice = choice.dataset.clickEvent
-			const regionValue = hasValueChoice ? hasValueChoice.split("/")[1] : false
-			const paramQuery = regionValue ? regionValue.split("-")[1] : ""
+			selectRegionsBox?.classList.toggle("hidden")
+			selectRegionsBox?.classList.toggle("opacity-0")
+		})
 
-			objURL.searchParams.set("r", paramQuery)
-			window.history.replaceState(null, "", objURL.toString())
+		const choicesRegion = document.querySelectorAll(
+			"[data-click-event^='value/region-']"
+		) as NodeListOf<HTMLElement>
+		if (!choicesRegion) console.error("Region options not found")
 
-			// close the region selector
-			selectRegion?.click()
+		choicesRegion?.forEach((choice) => {
+			choice.addEventListener("click", (event) => {
+				event.preventDefault()
 
-			// set the region name in the selector
-			setNameSelect({ select: selectRegion, value: paramQuery })
+				const hasValueChoice = choice.dataset.clickEvent
+				const regionValue = hasValueChoice ? hasValueChoice.split("/")[1] : false
+				const paramQuery = regionValue ? regionValue.split("-")[1] : ""
+
+				objURL.searchParams.set("r", paramQuery)
+				window.history.replaceState(null, "", objURL.toString())
+
+				// close the region selector
+				selectRegion?.click()
+
+				// set the region name in the selector
+				setNameSelect({ select: selectRegion, value: paramQuery })
+			})
 		})
 	})
 </script>

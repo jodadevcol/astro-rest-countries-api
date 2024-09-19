@@ -1,20 +1,33 @@
 ---
 import Layout from "../layout/Layout.astro"
-import CountriesData from "../mooks/countries-info.json"
+import { GETCountryLocalByCode, GETNameCountriesLocalByBorder } from "../services/countries"
+import type { IntoOtherLanguages } from "../types/countries.v3.1"
 
-const countries = CountriesData?.countries
-if (!countries) {
-	console.error("No countries data found")
+const { country = "" } = Astro.params
+const currentCountry = await GETCountryLocalByCode({ code: country }).then((res) => res)
+
+if (!currentCountry) {
+	return { status: 404 }
 }
+const {
+	name,
+	flags,
+	cca3,
+	population,
+	region,
+	subregion,
+	capital,
+	tld,
+	currencies,
+	languages,
+	borders = [],
+} = currentCountry
 
-const { country } = Astro.params
+const nativeName = Object.values(name.nativeName)
+	.map((c: IntoOtherLanguages) => c.common)
+	.join(", ")
 
-const countryData = countries.find((c) => c.alpha3Code === country)
-if (!countryData) {
-	return {
-		status: 404,
-	}
-}
+const namesBorder = await GETNameCountriesLocalByBorder({ code: borders })
 ---
 
 <Layout title="Detail country">
@@ -46,31 +59,38 @@ if (!countryData) {
 			<article class="flex flex-wrap items-center justify-between gap-x-8 lg:flex-nowrap">
 				<div class="flex w-full max-w-xl items-center justify-center">
 					<picture class="overflow-hidden rounded-xl">
-						<img src={countryData.flags.svg} alt="" class="max-h-96 object-contain" />
+						<img
+							src={flags.svg}
+							alt=""
+							class="max-h-96 object-contain"
+							transition:name={`flag-image-${cca3}`}
+						/>
 					</picture>
 				</div>
 
 				<div class="w-full max-w-xl px-5 text-light-100 dark:text-white lg:px-0">
-					<h2 class="mb-6 text-4xl font-extrabold">{countryData.name}</h2>
+					<h2 class="mb-6 text-4xl font-extrabold">
+						{name.official}
+					</h2>
 
-					<div class="mb-10 flex items-start justify-between gap-x-5 gap-y-10">
+					<div class="mb-10 grid grid-cols-2 items-start justify-between gap-x-5 gap-y-10">
 						<div
 							class="space-y-2 [&>div>span]:font-semibold [&>div]:text-base [&>div]:font-light [&>div]:leading-4"
 						>
 							<div>
-								<span>Native Name</span>: {countryData.nativeName}
+								<span>Native Name</span>: {nativeName}
 							</div>
 							<div>
-								<span>Population</span>: {countryData.nativeName}
+								<span>Population</span>: {new Intl.NumberFormat("en-IN").format(population)}
 							</div>
 							<div>
-								<span>Region</span>: {countryData.region}
+								<span>Region</span>: {region}
 							</div>
 							<div>
-								<span>Sub Region</span>: {countryData.subregion}
+								<span>Sub Region</span>: {subregion}
 							</div>
 							<div>
-								<span>Capital</span>: {countryData.capital}
+								<span>Capital</span>: {capital}
 							</div>
 						</div>
 
@@ -78,35 +98,41 @@ if (!countryData) {
 							class="space-y-2 [&>div>span]:font-semibold [&>div]:text-base [&>div]:font-light [&>div]:leading-4"
 						>
 							<div>
-								<span>Top Level Domain</span>: {countryData.topLevelDomain}
+								<span>Top Level Domain</span>: {tld}
 							</div>
 							<div>
-								<span>Currencies</span>: {countryData.currencies?.map((c) => c.name).join(", ")}
+								<span>Currencies</span>: {
+									Object.values(currencies)
+										.map((c) => c.name)
+										.join(", ")
+								}
 							</div>
 							<div>
-								<span>Languages</span>: {countryData.languages?.map((l) => l.name).join(", ")}
+								<span>Languages</span>: {
+									Object.values(languages)
+										.map((l) => l)
+										.join(", ")
+								}
 							</div>
 						</div>
 					</div>
 
 					{
-						countryData.borders && (
+						namesBorder.length > 0 && (
 							<div class="flex gap-x-4">
 								<span class="whitespace-nowrap text-base font-semibold">Border Countries</span>:
 								<ul class="inline-flex flex-wrap gap-2">
-									{countryData.borders.map((border) => (
+									{namesBorder.map((border) => (
 										<li
 											class="dark:drop-shadow-none"
 											style="filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.05));"
 										>
 											<a
-												href={`/${border}`}
+												href={`/${border.code}`}
 												class="inline-block rounded-md bg-white px-4 py-2 text-light-100 hover:bg-white/80 hover:text-light-100/60 dark:bg-dark-100 dark:text-white dark:hover:bg-dark-100/40"
 												class="inline-flex max-w-36 items-center justify-center space-x-2 rounded-md bg-white px-4 py-2 text-light-100 hover:bg-white/80 hover:text-light-100/60 dark:bg-dark-100 dark:text-white dark:hover:bg-dark-100/40"
 											>
-												<span class="whitespace-nowrap">
-													{countries.find((c) => c.alpha3Code === border)?.name}
-												</span>
+												<span class="whitespace-nowrap">{border.common}</span>
 											</a>
 										</li>
 									))}
