@@ -1,5 +1,7 @@
 ---
-import { SELECT_REGIONS } from "../const/filters"
+import { SELECT_REGIONS } from "@const/filters"
+import ArrowIcon from "@icons/Arrow.astro"
+import SearchIcon from "@icons/Search.astro"
 ---
 
 <div class="relative z-10 flex items-center justify-between">
@@ -9,23 +11,11 @@ import { SELECT_REGIONS } from "../const/filters"
 			style="filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.05));"
 		>
 			<span class="icon-search size-5">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="size-full"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-					></path>
-				</svg>
+				<SearchIcon />
 			</span>
 
 			<input
+				data-input="search"
 				type="text"
 				placeholder="Search for a country..."
 				class="imelilig w-full max-w-full appearance-none border-none bg-inherit outline-none dark:text-white dark:placeholder-white"
@@ -37,22 +27,12 @@ import { SELECT_REGIONS } from "../const/filters"
 		<button
 			class="text-light-100-100 flex w-full max-w-full items-center justify-between rounded-md bg-white px-6 py-4 text-left dark:bg-dark-100 dark:text-white"
 			style="filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.05));"
-			data-click-event="click/regionSelector"
+			data-filter-select="region"
 		>
-			<span class="text-base" data-select-name="">Filter by Region</span>
+			<span class="text-base" data-filter-select-name="">Filter by Region</span>
 
 			<span class="icon-arrow-down size-3">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="size-full"
-				>
-					<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"
-					></path>
-				</svg>
+				<ArrowIcon />
 			</span>
 		</button>
 
@@ -67,7 +47,7 @@ import { SELECT_REGIONS } from "../const/filters"
 					SELECT_REGIONS.map((region) => {
 						return (
 							<li>
-								<button data-click-event={`value/region-${region.value}`}>
+								<button data-filter-select={`region-${region.value}`}>
 									<span class="pointer-events-none text-sm">{region.name}</span>
 								</button>
 							</li>
@@ -80,58 +60,98 @@ import { SELECT_REGIONS } from "../const/filters"
 </div>
 
 <script>
-	import { SELECT_REGIONS } from "../const/filters"
+	import { SELECT_REGIONS } from "@const/filters"
+	import { $, $$ } from "@tools/dom"
+	import { setParamsURL } from "@tools/url"
+	import debounce from "just-debounce-it"
+
 	// this needs to use a ViewTransition to working properly
 	document.addEventListener("astro:page-load", () => {
-		function setNameSelect({ select, value }: { select: HTMLElement; value: string }) {
-			if (!select) return
+		const params = new URLSearchParams(window.location.search)
+		const debouncedFilter = debounce(filterCountriesBy, 500)
+		const debouncedParams = debounce(updateParams, 300)
 
-			const selectName = select.querySelector("[data-select-name]")
-			if (!selectName) return
-
-			const newValue = SELECT_REGIONS.find((region) => region.value === value)?.name
-			const newName = newValue ? newValue : "Filter by Region"
-
-			selectName.textContent = newName
-		}
-
-		const objURL = new URL(window.location.origin)
-
-		const selectRegion = document.querySelector(
-			"[data-click-event='click/regionSelector']"
-		) as HTMLElement
+		const selectRegion = $("[data-filter-select='region']")
 		if (!selectRegion) console.error("Region selector not found")
 
-		selectRegion?.addEventListener("click", (event) => {
+		selectRegion?.addEventListener("click", toogleRegion)
+
+		function toogleRegion(event: MouseEvent) {
 			event.preventDefault()
-			const selectRegionsBox = selectRegion.nextElementSibling
+			const selectRegionsBox = selectRegion?.nextElementSibling
 
 			selectRegionsBox?.classList.toggle("hidden")
 			selectRegionsBox?.classList.toggle("opacity-0")
-		})
+		}
 
-		const choicesRegion = document.querySelectorAll(
-			"[data-click-event^='value/region-']"
-		) as NodeListOf<HTMLElement>
+		const choicesRegion = $$("[data-filter-select^='region-']")
 		if (!choicesRegion) console.error("Region options not found")
 
 		choicesRegion?.forEach((choice) => {
-			choice.addEventListener("click", (event) => {
-				event.preventDefault()
-
-				const hasValueChoice = choice.dataset.clickEvent
-				const regionValue = hasValueChoice ? hasValueChoice.split("/")[1] : false
-				const paramQuery = regionValue ? regionValue.split("-")[1] : ""
-
-				objURL.searchParams.set("r", paramQuery)
-				window.history.replaceState(null, "", objURL.toString())
-
-				// close the region selector
-				selectRegion?.click()
-
-				// set the region name in the selector
-				setNameSelect({ select: selectRegion, value: paramQuery })
-			})
+			choice.addEventListener("click", (event) => handleClickRegionChoice(event, choice))
 		})
+
+		function handleClickRegionChoice(event: MouseEvent, choice: HTMLElement) {
+			event.preventDefault()
+
+			const hasValueToChoice = choice.dataset.filterSelect
+			const value = hasValueToChoice?.split("-")[1] || ""
+
+			// updateParams({ region: value })
+			setNameRegion({ value })
+			debouncedParams({ region: value })
+			debouncedFilter()
+
+			// close the region selector
+			selectRegion?.click()
+		}
+
+		const inputSearch = $("[data-input='search']") as HTMLInputElement
+		if (!inputSearch) console.error("Search input not found")
+
+		inputSearch?.addEventListener("input", () => {
+			debouncedParams({ search: inputSearch.value })
+			debouncedFilter()
+		})
+
+		function setNameRegion({ value }: { value: string }) {
+			const $nameRegion = $("[data-filter-select-name]", selectRegion || document)
+			if (!$nameRegion) return
+
+			const newName = SELECT_REGIONS.find((region) => region.value === value)?.name
+			$nameRegion.textContent = newName || "Filter by Region"
+		}
+
+		function updateParams({ region, search }: { region?: string; search?: string } = {}) {
+			if (search !== undefined) {
+				setParamsURL({ params, values: { search: search?.toLocaleLowerCase().trim() } })
+			} else if (params.has("search")) {
+				setParamsURL({ params, values: { search: params.get("search") || "" } })
+			}
+
+			if (region !== undefined) {
+				setParamsURL({ params, values: { region: region?.toLocaleLowerCase().trim() } })
+			} else if (params.has("region")) {
+				setParamsURL({ params, values: { region: params.get("region") || "" } })
+			}
+		}
+
+		function filterCountriesBy() {
+			const countries = $$("[data-country-name]")
+			const querySearch = params.get("search")?.toLowerCase() || ""
+			const queryRegion = params.get("region")?.toLowerCase() || ""
+
+			countries?.forEach((country) => {
+				const name = country.dataset.countryName || ""
+				const regionCountry = country.dataset.countryRegion || ""
+
+				const isName = params.has("search") ? name.toLowerCase().includes(querySearch) : true
+				const isRegion = params.has("region")
+					? queryRegion === "all" || regionCountry.toLowerCase().includes(queryRegion)
+					: true
+
+				country.classList.toggle("hidden", !(isName && isRegion))
+			})
+		}
 	})
 </script>

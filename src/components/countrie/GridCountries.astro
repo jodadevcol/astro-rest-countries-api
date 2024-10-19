@@ -9,7 +9,7 @@ const countries = await GETAllCountriesLocal()
 <div>
 	<ul
 		class="grid-countries grid items-stretch gap-16"
-		style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); grid-template-rows: auto;"
+		style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); grid-template-rows: auto;"
 	>
 		{
 			countries.length > 0 &&
@@ -18,6 +18,8 @@ const countries = await GETAllCountriesLocal()
 
 					return (
 						<li
+							data-country-name={name.common.toLocaleLowerCase().trim()}
+							data-country-region={region.toLocaleLowerCase()}
 							class="h-full overflow-hidden rounded-md"
 							style="filter: drop-shadow(0px 0px 12px rgba(0, 0, 0, 0.03));"
 						>
