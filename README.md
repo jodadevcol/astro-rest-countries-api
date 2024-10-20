@@ -1,12 +1,20 @@
+# Challenge: REST Countries API
+
+![Design preview for the REST Countries API with color theme switcher coding challenge](./challenge/desktop-preview.jpg)
+
 # Astro Starter Kit: Minimal
 
 ```sh
 npm create astro@latest -- --template minimal
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
+[![Astro][astro-badge]][astro-url] - The web framework for content-driven websites.
+
+[![Open in StackBlitz](https://img.shields.io/badge/Frontend%2520Mentor-%23fafafa?style=flat&logo=frontendmentor&logoColor=%233e54a3&color=%23fafafa)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
 [![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+
+[astro-url]: https://astro.build/
 
 > 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
