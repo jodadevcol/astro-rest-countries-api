@@ -1,0 +1,51 @@
+---
+interface Props {
+	href: string
+	label: string
+}
+
+const { href, label } = Astro.props
+
+const isBack = href === "[back]"
+---
+
+{
+	isBack ? (
+		<button
+			data-event={isBack ? "back" : undefined}
+			class="inline-flex max-w-36 items-center justify-center gap-x-2 space-x-2 rounded-md bg-white px-4 py-2 text-light-100 hover:bg-white/80 hover:text-light-100/60 dark:bg-dark-100 dark:text-white dark:hover:bg-dark-100/40"
+			style="filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.05));"
+		>
+			<span class="size-5 [&>svg]:size-full">
+				<slot name="icon" />
+			</span>
+			<span>{label}</span>
+		</button>
+	) : (
+		<a
+			href={isBack ? "#" : href}
+			class="inline-flex max-w-36 items-center justify-center gap-x-2 space-x-2 rounded-md bg-white px-4 py-2 text-light-100 hover:bg-white/80 hover:text-light-100/60 dark:bg-dark-100 dark:text-white dark:hover:bg-dark-100/40"
+			style="filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.05));"
+		>
+			<span class="size-5 [&>svg]:size-full">
+				<slot name="icon" />
+			</span>
+			<span>{label}</span>
+		</a>
+	)
+}
+
+<script>
+	import { $ } from "@tools/dom"
+
+	document.addEventListener("astro:page-load", () => {
+		const backHistory = $("[data-event='back']")
+
+		if (backHistory) {
+			backHistory.addEventListener("click", (event) => {
+				event.preventDefault()
+				window.history.back()
+			})
+		}
+	})
+</script>
