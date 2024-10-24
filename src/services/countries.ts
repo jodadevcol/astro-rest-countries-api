@@ -1,5 +1,5 @@
 import CountriesData from "../mooks/countries-info.v3.1.json"
-import type { Country, Name } from "../types/countries.v3.1"
+import type { Country, Name } from "../types/countries"
 
 // const STORAGE_COUNTRY_ID = "__countries__data__"
 
