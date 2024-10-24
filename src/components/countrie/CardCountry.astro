@@ -1,5 +1,5 @@
 ---
-import type { CountryCard } from "../../types/countries.v3.1"
+import type { CountryCard } from "@types-local/countries"
 
 interface Props {
 	country: CountryCard
@@ -10,7 +10,7 @@ const { name, cca3, region, capital, population, flags } = country
 ---
 
 <div class="h-full bg-white dark:bg-dark-100">
-	<a href={`/${cca3}`} class="relative max-w-full overflow-hidden">
+	<a href={`country/${cca3}`} class="relative max-w-full overflow-hidden">
 		<picture class="">
 			<img
 				src={flags.svg}

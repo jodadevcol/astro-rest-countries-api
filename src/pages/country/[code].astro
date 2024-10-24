@@ -1,0 +1,417 @@
+---
+import Link from "@components/Link.astro"
+import BackArrow from "@icons/BackArrow.astro"
+import Layout from "@layout/Layout.astro"
+import { GETCountryLocalByCode, GETNameCountriesLocalByBorder } from "@services/countries"
+import type { IntoOtherLanguages } from "@types-local/countries"
+
+export function getStaticPaths() {
+	return [
+		{ params: { code: "SGS" } },
+		{ params: { code: "CHE" } },
+		{ params: { code: "GRD" } },
+		{ params: { code: "SLE" } },
+		{ params: { code: "HUN" } },
+		{ params: { code: "TWN" } },
+		{ params: { code: "WLF" } },
+		{ params: { code: "BRB" } },
+		{ params: { code: "PCN" } },
+		{ params: { code: "CIV" } },
+		{ params: { code: "TUN" } },
+		{ params: { code: "ITA" } },
+		{ params: { code: "BEN" } },
+		{ params: { code: "IDN" } },
+		{ params: { code: "CPV" } },
+		{ params: { code: "KNA" } },
+		{ params: { code: "LAO" } },
+		{ params: { code: "BES" } },
+		{ params: { code: "UGA" } },
+		{ params: { code: "AND" } },
+		{ params: { code: "BDI" } },
+		{ params: { code: "ZAF" } },
+		{ params: { code: "FRA" } },
+		{ params: { code: "LBY" } },
+		{ params: { code: "MEX" } },
+		{ params: { code: "GAB" } },
+		{ params: { code: "MNP" } },
+		{ params: { code: "MKD" } },
+		{ params: { code: "CHN" } },
+		{ params: { code: "YEM" } },
+		{ params: { code: "BLM" } },
+		{ params: { code: "GGY" } },
+		{ params: { code: "SLB" } },
+		{ params: { code: "SJM" } },
+		{ params: { code: "FRO" } },
+		{ params: { code: "UZB" } },
+		{ params: { code: "EGY" } },
+		{ params: { code: "SEN" } },
+		{ params: { code: "LKA" } },
+		{ params: { code: "PSE" } },
+		{ params: { code: "BGD" } },
+		{ params: { code: "PER" } },
+		{ params: { code: "SGP" } },
+		{ params: { code: "TUR" } },
+		{ params: { code: "AFG" } },
+		{ params: { code: "ABW" } },
+		{ params: { code: "COK" } },
+		{ params: { code: "GBR" } },
+		{ params: { code: "ZMB" } },
+		{ params: { code: "FIN" } },
+		{ params: { code: "NER" } },
+		{ params: { code: "CXR" } },
+		{ params: { code: "TKL" } },
+		{ params: { code: "GNB" } },
+		{ params: { code: "AZE" } },
+		{ params: { code: "REU" } },
+		{ params: { code: "DJI" } },
+		{ params: { code: "PRK" } },
+		{ params: { code: "MUS" } },
+		{ params: { code: "MSR" } },
+		{ params: { code: "VIR" } },
+		{ params: { code: "COL" } },
+		{ params: { code: "GRC" } },
+		{ params: { code: "HRV" } },
+		{ params: { code: "MAR" } },
+		{ params: { code: "DZA" } },
+		{ params: { code: "ATA" } },
+		{ params: { code: "NLD" } },
+		{ params: { code: "SDN" } },
+		{ params: { code: "FJI" } },
+		{ params: { code: "LIE" } },
+		{ params: { code: "NPL" } },
+		{ params: { code: "PRI" } },
+		{ params: { code: "GEO" } },
+		{ params: { code: "PAK" } },
+		{ params: { code: "MCO" } },
+		{ params: { code: "BWA" } },
+		{ params: { code: "LBN" } },
+		{ params: { code: "PNG" } },
+		{ params: { code: "MYT" } },
+		{ params: { code: "DOM" } },
+		{ params: { code: "NFK" } },
+		{ params: { code: "BVT" } },
+		{ params: { code: "QAT" } },
+		{ params: { code: "MDG" } },
+		{ params: { code: "IND" } },
+		{ params: { code: "SYR" } },
+		{ params: { code: "MNE" } },
+		{ params: { code: "SWZ" } },
+		{ params: { code: "PRY" } },
+		{ params: { code: "SLV" } },
+		{ params: { code: "UKR" } },
+		{ params: { code: "IMN" } },
+		{ params: { code: "NAM" } },
+		{ params: { code: "ARE" } },
+		{ params: { code: "BGR" } },
+		{ params: { code: "GRL" } },
+		{ params: { code: "DEU" } },
+		{ params: { code: "KHM" } },
+		{ params: { code: "IRQ" } },
+		{ params: { code: "ATF" } },
+		{ params: { code: "SWE" } },
+		{ params: { code: "CUB" } },
+		{ params: { code: "KGZ" } },
+		{ params: { code: "RUS" } },
+		{ params: { code: "MYS" } },
+		{ params: { code: "STP" } },
+		{ params: { code: "CYP" } },
+		{ params: { code: "CAN" } },
+		{ params: { code: "MWI" } },
+		{ params: { code: "SAU" } },
+		{ params: { code: "BIH" } },
+		{ params: { code: "ETH" } },
+		{ params: { code: "ESP" } },
+		{ params: { code: "SVN" } },
+		{ params: { code: "OMN" } },
+		{ params: { code: "SPM" } },
+		{ params: { code: "MAC" } },
+		{ params: { code: "SMR" } },
+		{ params: { code: "LSO" } },
+		{ params: { code: "MHL" } },
+		{ params: { code: "SXM" } },
+		{ params: { code: "ISL" } },
+		{ params: { code: "LUX" } },
+		{ params: { code: "ARG" } },
+		{ params: { code: "TCA" } },
+		{ params: { code: "NRU" } },
+		{ params: { code: "CCK" } },
+		{ params: { code: "ESH" } },
+		{ params: { code: "DMA" } },
+		{ params: { code: "CRI" } },
+		{ params: { code: "AUS" } },
+		{ params: { code: "THA" } },
+		{ params: { code: "HTI" } },
+		{ params: { code: "TUV" } },
+		{ params: { code: "HND" } },
+		{ params: { code: "GNQ" } },
+		{ params: { code: "LCA" } },
+		{ params: { code: "PYF" } },
+		{ params: { code: "BLR" } },
+		{ params: { code: "LVA" } },
+		{ params: { code: "PLW" } },
+		{ params: { code: "GLP" } },
+		{ params: { code: "PHL" } },
+		{ params: { code: "GIB" } },
+		{ params: { code: "DNK" } },
+		{ params: { code: "CMR" } },
+		{ params: { code: "GIN" } },
+		{ params: { code: "BHR" } },
+		{ params: { code: "SUR" } },
+		{ params: { code: "COD" } },
+		{ params: { code: "SOM" } },
+		{ params: { code: "CZE" } },
+		{ params: { code: "NCL" } },
+		{ params: { code: "VUT" } },
+		{ params: { code: "SHN" } },
+		{ params: { code: "TGO" } },
+		{ params: { code: "VGB" } },
+		{ params: { code: "KEN" } },
+		{ params: { code: "NIU" } },
+		{ params: { code: "HMD" } },
+		{ params: { code: "RWA" } },
+		{ params: { code: "EST" } },
+		{ params: { code: "ROU" } },
+		{ params: { code: "TTO" } },
+		{ params: { code: "GUY" } },
+		{ params: { code: "TLS" } },
+		{ params: { code: "VNM" } },
+		{ params: { code: "URY" } },
+		{ params: { code: "VAT" } },
+		{ params: { code: "HKG" } },
+		{ params: { code: "AUT" } },
+		{ params: { code: "ATG" } },
+		{ params: { code: "TKM" } },
+		{ params: { code: "MOZ" } },
+		{ params: { code: "PAN" } },
+		{ params: { code: "FSM" } },
+		{ params: { code: "IRL" } },
+		{ params: { code: "CUW" } },
+		{ params: { code: "GUF" } },
+		{ params: { code: "NOR" } },
+		{ params: { code: "ALA" } },
+		{ params: { code: "CAF" } },
+		{ params: { code: "BFA" } },
+		{ params: { code: "ERI" } },
+		{ params: { code: "TZA" } },
+		{ params: { code: "KOR" } },
+		{ params: { code: "JOR" } },
+		{ params: { code: "MRT" } },
+		{ params: { code: "LTU" } },
+		{ params: { code: "UMI" } },
+		{ params: { code: "SVK" } },
+		{ params: { code: "AGO" } },
+		{ params: { code: "KAZ" } },
+		{ params: { code: "MDA" } },
+		{ params: { code: "MLI" } },
+		{ params: { code: "FLK" } },
+		{ params: { code: "ARM" } },
+		{ params: { code: "WSM" } },
+		{ params: { code: "JEY" } },
+		{ params: { code: "JPN" } },
+		{ params: { code: "BOL" } },
+		{ params: { code: "CHL" } },
+		{ params: { code: "USA" } },
+		{ params: { code: "VCT" } },
+		{ params: { code: "BMU" } },
+		{ params: { code: "SYC" } },
+		{ params: { code: "IOT" } },
+		{ params: { code: "GTM" } },
+		{ params: { code: "ECU" } },
+		{ params: { code: "MTQ" } },
+		{ params: { code: "TJK" } },
+		{ params: { code: "MLT" } },
+		{ params: { code: "GMB" } },
+		{ params: { code: "NGA" } },
+		{ params: { code: "BHS" } },
+		{ params: { code: "UNK" } },
+		{ params: { code: "KWT" } },
+		{ params: { code: "MDV" } },
+		{ params: { code: "SSD" } },
+		{ params: { code: "IRN" } },
+		{ params: { code: "ALB" } },
+		{ params: { code: "BRA" } },
+		{ params: { code: "SRB" } },
+		{ params: { code: "BLZ" } },
+		{ params: { code: "MMR" } },
+		{ params: { code: "BTN" } },
+		{ params: { code: "VEN" } },
+		{ params: { code: "LBR" } },
+		{ params: { code: "JAM" } },
+		{ params: { code: "POL" } },
+		{ params: { code: "CYM" } },
+		{ params: { code: "BRN" } },
+		{ params: { code: "COM" } },
+		{ params: { code: "GUM" } },
+		{ params: { code: "TON" } },
+		{ params: { code: "KIR" } },
+		{ params: { code: "GHA" } },
+		{ params: { code: "TCD" } },
+		{ params: { code: "ZWE" } },
+		{ params: { code: "MAF" } },
+		{ params: { code: "MNG" } },
+		{ params: { code: "PRT" } },
+		{ params: { code: "ASM" } },
+		{ params: { code: "COG" } },
+		{ params: { code: "BEL" } },
+		{ params: { code: "ISR" } },
+		{ params: { code: "NZL" } },
+		{ params: { code: "NIC" } },
+		{ params: { code: "AIA" } },
+	]
+}
+
+const { code } = Astro.params
+const currentCountry = await GETCountryLocalByCode({ code }).then((res) => res)
+
+if (!currentCountry) {
+	return new Response(null, {
+		status: 404,
+		statusText: "Not found",
+	})
+}
+
+const {
+	name,
+	flags,
+	cca3,
+	population,
+	region,
+	subregion,
+	capital,
+	tld,
+	currencies,
+	languages,
+	borders = [],
+} = currentCountry
+
+const hasNativeName = name.nativeName && Object.values(name.nativeName).length > 0 ? true : false
+const nativeName = hasNativeName
+	? Object.values(name.nativeName)
+			.map((c: IntoOtherLanguages) => c.common)
+			.join(", ")
+	: false
+
+const namesBorder = await GETNameCountriesLocalByBorder({ code: borders })
+---
+
+<Layout title={`${name.common} | Details country | Countries API`}>
+	<section>
+		<div class="flex flex-col gap-y-20">
+			<Link href="[back]" label="Back">
+				<BackArrow slot="icon" />
+			</Link>
+
+			<article class="flex flex-wrap items-center justify-between gap-x-8 lg:flex-nowrap">
+				<div class="flex w-full max-w-xl items-center justify-center">
+					<picture class="overflow-hidden rounded-xl">
+						<img
+							src={flags.svg}
+							alt=""
+							class="max-h-96 object-contain"
+							transition:name={`flag-image-${cca3}`}
+						/>
+					</picture>
+				</div>
+
+				<div class="w-full max-w-xl px-5 text-light-100 dark:text-white lg:px-0">
+					<h2 class="mb-6 text-4xl font-extrabold">
+						{name.official}
+					</h2>
+
+					<div class="mb-10 grid grid-cols-2 items-start justify-between gap-x-5 gap-y-10">
+						<div
+							class="space-y-2 [&>div>span]:font-semibold [&>div]:text-base [&>div]:font-light [&>div]:leading-4"
+						>
+							{
+								nativeName && (
+									<div>
+										<span>Native Name</span>: {nativeName}
+									</div>
+								)
+							}
+							<div>
+								<span>Population</span>: {new Intl.NumberFormat("en-IN").format(population)}
+							</div>
+							{
+								region && (
+									<div>
+										<span>Region</span>: {region}
+									</div>
+								)
+							}
+
+							{
+								subregion && (
+									<div>
+										<span>Sub Region</span>: {subregion}
+									</div>
+								)
+							}
+
+							{
+								capital && (
+									<div>
+										<span>Capital</span>: {capital}
+									</div>
+								)
+							}
+						</div>
+
+						<div
+							class="space-y-2 [&>div>span]:font-semibold [&>div]:text-base [&>div]:font-light [&>div]:leading-4"
+						>
+							<div>
+								<span>Top Level Domain</span>: {tld}
+							</div>
+							{
+								currencies && (
+									<div>
+										<span>Currencies</span>:{" "}
+										{Object.values(currencies)
+											.map((c) => c.name)
+											.join(", ")}
+									</div>
+								)
+							}
+
+							{
+								languages && (
+									<div>
+										<span>Languages</span>:{" "}
+										{Object.values(languages)
+											.map((l) => l)
+											.join(", ")}
+									</div>
+								)
+							}
+						</div>
+					</div>
+
+					{
+						namesBorder.length > 0 && (
+							<div class="flex gap-x-4">
+								<span class="whitespace-nowrap text-base font-semibold">Border Countries</span>:
+								<ul class="inline-flex flex-wrap gap-2">
+									{namesBorder.map((border) => (
+										<li
+											class="dark:drop-shadow-none"
+											style="filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.05));"
+										>
+											<a
+												href={`/${border.code}`}
+												class="inline-block rounded-md bg-white px-4 py-2 text-light-100 hover:bg-white/80 hover:text-light-100/60 dark:bg-dark-100 dark:text-white dark:hover:bg-dark-100/40"
+												class="inline-flex max-w-36 items-center justify-center space-x-2 rounded-md bg-white px-4 py-2 text-light-100 hover:bg-white/80 hover:text-light-100/60 dark:bg-dark-100 dark:text-white dark:hover:bg-dark-100/40"
+											>
+												<span class="whitespace-nowrap">{border.common}</span>
+											</a>
+										</li>
+									))}
+								</ul>
+							</div>
+						)
+					}
+				</div>
+			</article>
+		</div>
+	</section>
+</Layout>

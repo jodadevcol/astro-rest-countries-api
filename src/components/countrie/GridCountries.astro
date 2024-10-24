@@ -1,7 +1,6 @@
 ---
 import { GETAllCountriesLocal } from "../../services/countries"
 import CardCountry from "./CardCountry.astro"
-import LoadingCountries from "./LoadingCountries.astro"
 
 const countries = await GETAllCountriesLocal()
 ---
@@ -39,7 +38,7 @@ const countries = await GETAllCountriesLocal()
 		}
 	</ul>
 
-	<hr class="my-12 border-light-100/40 dark:border-dark-100/40" />
+	<!-- <hr class="my-12 border-light-100/40 dark:border-dark-100/40" />
 
-	<LoadingCountries />
+	<LoadingCountries /> -->
 </div>
