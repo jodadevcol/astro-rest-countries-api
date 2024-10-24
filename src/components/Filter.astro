@@ -40,14 +40,17 @@ import SearchIcon from "@icons/Search.astro"
 			class="absolute -bottom-1 left-0 right-0 hidden w-full max-w-full translate-y-full opacity-0"
 		>
 			<ul
-				class="space-y-2 rounded-md bg-white px-6 py-4 text-light-100 dark:bg-dark-100 dark:text-white"
+				class="rounded-md bg-white text-light-100 dark:bg-dark-100 dark:text-white"
 				style="filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.05));"
 			>
 				{
 					SELECT_REGIONS.map((region) => {
 						return (
-							<li>
-								<button data-filter-select={`region-${region.value}`}>
+							<li class="w-full max-w-full px-6 py-2 transition-colors duration-300 ease-in-out first:pt-4 last:pb-4 hover:bg-dark-200/40">
+								<button
+									class="hover: w-full text-left"
+									data-filter-select={`region-${region.value}`}
+								>
 									<span class="pointer-events-none text-sm">{region.name}</span>
 								</button>
 							</li>
@@ -72,9 +75,23 @@ import SearchIcon from "@icons/Search.astro"
 		const debouncedParams = debounce(updateParams, 300)
 
 		const selectRegion = $("[data-filter-select='region']")
-		if (!selectRegion) console.error("Region selector not found")
+		const choicesRegion = $$("[data-filter-select^='region-']")
+		const inputSearch = $("[data-input='search']") as HTMLInputElement
 
-		selectRegion?.addEventListener("click", toogleRegion)
+		if (selectRegion) selectRegion.addEventListener("click", toogleRegion)
+
+		if (choicesRegion) {
+			choicesRegion.forEach((choice) => {
+				choice.addEventListener("click", (event) => handleClickRegionChoice(event, choice))
+			})
+		}
+
+		if (inputSearch) {
+			inputSearch.addEventListener("input", () => {
+				debouncedParams({ search: inputSearch.value })
+				debouncedFilter()
+			})
+		}
 
 		function toogleRegion(event: MouseEvent) {
 			event.preventDefault()
@@ -83,13 +100,6 @@ import SearchIcon from "@icons/Search.astro"
 			selectRegionsBox?.classList.toggle("hidden")
 			selectRegionsBox?.classList.toggle("opacity-0")
 		}
-
-		const choicesRegion = $$("[data-filter-select^='region-']")
-		if (!choicesRegion) console.error("Region options not found")
-
-		choicesRegion?.forEach((choice) => {
-			choice.addEventListener("click", (event) => handleClickRegionChoice(event, choice))
-		})
 
 		function handleClickRegionChoice(event: MouseEvent, choice: HTMLElement) {
 			event.preventDefault()
@@ -105,14 +115,6 @@ import SearchIcon from "@icons/Search.astro"
 			// close the region selector
 			selectRegion?.click()
 		}
-
-		const inputSearch = $("[data-input='search']") as HTMLInputElement
-		if (!inputSearch) console.error("Search input not found")
-
-		inputSearch?.addEventListener("input", () => {
-			debouncedParams({ search: inputSearch.value })
-			debouncedFilter()
-		})
 
 		function setNameRegion({ value }: { value: string }) {
 			const $nameRegion = $("[data-filter-select-name]", selectRegion || document)
