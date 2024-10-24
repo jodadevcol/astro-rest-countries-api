@@ -303,13 +303,8 @@ const namesBorder = await GETNameCountriesLocalByBorder({ code: borders })
 
 			<article class="flex flex-wrap items-center justify-between gap-x-8 lg:flex-nowrap">
 				<div class="flex w-full max-w-xl items-center justify-center">
-					<picture class="overflow-hidden rounded-xl">
-						<img
-							src={flags.svg}
-							alt=""
-							class="max-h-96 object-contain"
-							transition:name={`flag-image-${cca3}`}
-						/>
+					<picture class="overflow-hidden rounded-xl" transition:name={`flag-image-${cca3}`}>
+						<img src={flags.svg} alt="" class="max-h-96 object-contain" />
 					</picture>
 				</div>
 
