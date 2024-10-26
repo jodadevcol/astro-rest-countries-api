@@ -15,7 +15,7 @@ const isBack = href === "[back]"
 		<button
 			data-event={isBack ? "back" : undefined}
 			class:list={[
-				"inline-flex max-w-36 items-center justify-center gap-x-2 space-x-2 rounded-md bg-white px-4 py-2 text-light-100 hover:bg-white/80 hover:text-light-100/60 dark:bg-dark-100 dark:text-white dark:hover:bg-dark-100/40",
+				"inline-flex max-w-36 items-center justify-center gap-x-2 space-x-2 rounded-md bg-white px-4 py-2 text-light-100 hover:bg-white/80 hover:text-light-100/60 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-dark-100 dark:text-white dark:hover:bg-dark-100/40",
 				extraClases,
 			]}
 			style="filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, 0.05));"
@@ -47,7 +47,12 @@ const isBack = href === "[back]"
 		if (backHistory) {
 			backHistory.addEventListener("click", (event) => {
 				event.preventDefault()
+
+				const target = event.target as HTMLElement
+
 				window.history.back()
+				target?.removeEventListener("click", () => {})
+				// target?.setAttribute("disabled", "true")
 			})
 		}
 	})
