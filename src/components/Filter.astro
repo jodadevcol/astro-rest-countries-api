@@ -46,7 +46,12 @@ import SearchIcon from "@icons/Search.astro"
 				{
 					SELECT_REGIONS.map((region) => {
 						return (
-							<li class="w-full max-w-full transition-colors duration-300 ease-in-out hover:bg-light-200/10 dark:hover:bg-dark-200/40">
+							<li
+								class:list={[
+									"choice-region w-full max-w-full transition-colors duration-300 ease-in-out hover:bg-light-200/10 dark:hover:bg-dark-200/40",
+									{ active: region.value === "all" },
+								]}
+							>
 								<button
 									class="hover: w-full px-6 py-2 text-left"
 									data-filter-select={`region-${region.value}`}
@@ -62,6 +67,14 @@ import SearchIcon from "@icons/Search.astro"
 	</div>
 </div>
 
+<style>
+	.choice-region {
+		&.active {
+			@apply pointer-events-none bg-light-200/10 opacity-60 dark:bg-dark-200/40;
+		}
+	}
+</style>
+
 <script>
 	import { SELECT_REGIONS } from "@const/filters"
 	import { $, $$ } from "@tools/dom"
@@ -71,6 +84,7 @@ import SearchIcon from "@icons/Search.astro"
 	// this needs to use a ViewTransition to working properly
 	document.addEventListener("astro:page-load", () => {
 		const params = new URLSearchParams(window.location.search)
+
 		const debouncedFilter = debounce(filterCountriesBy, 500)
 		const debouncedParams = debounce(updateParams, 300)
 
@@ -104,16 +118,31 @@ import SearchIcon from "@icons/Search.astro"
 		function handleClickRegionChoice(event: MouseEvent, choice: HTMLElement) {
 			event.preventDefault()
 
+			const choseRegion = choice.closest("li.choice-region")
 			const hasValueToChoice = choice.dataset.filterSelect
 			const value = hasValueToChoice?.split("-")[1] || ""
 
-			// updateParams({ region: value })
+			if (choseRegion) setActiveRegion({ choseRegion: choseRegion as HTMLElement })
+
 			setNameRegion({ value })
 			debouncedParams({ region: value })
 			debouncedFilter()
 
 			// close the region selector
 			selectRegion?.click()
+		}
+
+		function setActiveRegion({ choseRegion }: { choseRegion: HTMLElement }) {
+			const parentGroup = choseRegion.closest("ul")
+			if (!parentGroup) return
+
+			const choices = $$("li.choice-region", parentGroup)
+
+			choices.forEach((choice) => {
+				choice.classList.remove("active")
+			})
+
+			choseRegion.classList.add("active")
 		}
 
 		function setNameRegion({ value }: { value: string }) {
