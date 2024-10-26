@@ -1,55 +1,57 @@
 # Challenge: REST Countries API
 
-![Design preview for the REST Countries API with color theme switcher coding challenge](./challenge/desktop-preview.jpg)
+![Design preview for the REST Countries API with color theme switcher coding challenge](./challenge/previews/desktop-preview-01.png)
 
-# Astro Starter Kit: Minimal
 
-```sh
-npm create astro@latest -- --template minimal
-```
+<div align="center">
 
-[![Astro][astro-badge]][astro-url] - The web framework for content-driven websites.
+![Astro](https://img.shields.io/badge/Astro-%23fafafa?style=flat&logo=astro&logoColor=%23881ABD&color=%23fafafa)
+![Front Mentor](https://img.shields.io/badge/Frontend%2520Mentor-%23fafafa?style=flat&logo=frontendmentor&logoColor=%233e54a3&color=%23fafafa)
+![Vercel Deploy](https://deploy-badge.vercel.app/vercel/astro-rest-countries-api)
+![Tailwind CSS Badge](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?logo=tailwindcss&logoColor=fff&style=flat)
 
-[![Open in StackBlitz](https://img.shields.io/badge/Frontend%2520Mentor-%23fafafa?style=flat&logo=frontendmentor&logoColor=%233e54a3&color=%23fafafa)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+</div>
 
-[astro-url]: https://astro.build/
+This is a solution to the [REST Countries API with color theme switcher challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca). Frontend Mentor challenges help me improve my coding skills by building realistic projects. 
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 🏆 Challenge
 
-## 🚀 Project Structure
+Users should be able to:
 
-Inside of your Astro project, you'll see the following folders and files:
+- [x] See all countries from the API on the homepage
+- [x] Search for a country using an `input` field
+- [x] Filter countries by region
+- [x] Click on a country to see more detailed information on a separate page
+- [x] Click through to the border countries on the detail page
+- [x] Toggle the color scheme between light and dark mode *(optional)*
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## 📦 Stack
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+- [**Astro**](https://kit.svelte.dev/) - Web development, streamlined.
+- [**Typescript**](https://www.typescriptlang.org/) - JavaScript with syntax for types.
+- [**Tailwindcss**](https://tailwindcss.com/) - A utility-first CSS framework for rapidly building custom designs.
+- [**Prettier**](https://prettier.io/) + [prettier-plugin-tailwindcss](https://github.com/tailwindlabs/prettier-plugin-tailwindcss) - An opinionated code formatter.
+- [**Vercel**](https://vercel.com/) - Platform for deploy your web apps faster, without the need for additional configuration.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## 🔗 Links
 
-Any static assets, like images, can be placed in the `public/` directory.
+- Solution URL: [Add solution URL here](https://your-solution-url.com)
+- Live Site URL: [Add live site URL here](https://astro-rest-countries-api.vercel.app/)
 
-## 🧞 Commands
+## 🔮 Continued development
 
-All commands are run from the root of the project, from a terminal:
+- [ ] Handling of a global state so that information can be loaded with an infinite scroll or a button.
+- [ ] Make some components with React to generate more radioactivity.
+- [ ] Manage all the information through the API and not through the mockups.
+- [ ] Add more information to the detail of the countries in order to use more information that can be seen in the mockups.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## 🤵 Author
 
-## 👀 Want to learn more?
+- Frontend Mentor - [@jodadevcol](https://www.frontendmentor.io/profile/jodadevcol)
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 📑 Acknowledgments
+
+At the end of the project I encountered some inconvenience in the navigation back, after having first a filter in the home, I do not understand the reason and I want to find a solution.
+
+Finally, I would like to know your opinion about the project if you have any comment, criticism or doubt you can leave it in the github or through FrontMentor.
+
