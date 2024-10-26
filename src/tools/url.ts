@@ -11,7 +11,7 @@
 // console.log(searchParams.toString()); // "q=URLUtils.searchParams"
 
 function updateURLParameter(params: URLSearchParams) {
-	window.history.replaceState(null, "", `?${params.toString()}`)
+	window.history.pushState(null, "", `?${params.toString()}`)
 }
 
 function setParamsURL({
@@ -28,4 +28,4 @@ function setParamsURL({
 	updateURLParameter(params)
 }
 
-export { setParamsURL }
+export { setParamsURL, updateURLParameter }
