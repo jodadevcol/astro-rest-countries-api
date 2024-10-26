@@ -37,6 +37,7 @@ const {
 	currencies,
 	languages,
 	borders = [],
+	maps,
 } = currentCountry
 
 const hasNativeName = name.nativeName && Object.values(name.nativeName).length > 0 ? true : false
@@ -47,6 +48,7 @@ const nativeName = hasNativeName
 	: false
 
 const namesBorder = await GETNameCountriesLocalByBorder({ code: borders })
+const hasMaps = maps && maps.googleMaps ? true : false
 
 export const prerender = true
 ---
@@ -67,7 +69,34 @@ export const prerender = true
 
 				<div class="w-full max-w-xl px-5 text-light-100 dark:text-white lg:px-0">
 					<h2 class="mb-6 text-4xl font-extrabold">
-						{name.official}
+						<a
+							href={maps?.googleMaps}
+							class:list={[
+								"group inline-flex items-center justify-start gap-x-2 hover:opacity-60",
+								{ "pointer-events-none": !hasMaps },
+							]}
+							target="_blank"
+							aria-label="Open Google Maps of country location in new tab or window"
+						>
+							{name.official}
+
+							{
+								hasMaps && (
+									<span class="size-5 scale-0 transition-transform duration-200 ease-out group-hover:scale-100">
+										<svg
+											class="size-full"
+											xmlns="http://www.w3.org/2000/svg"
+											height="24px"
+											viewBox="0 -960 960 960"
+											width="24px"
+											fill="currentColor"
+										>
+											<path d="m300-300 280-80 80-280-280 80-80 280Zm180-120q-25 0-42.5-17.5T420-480q0-25 17.5-42.5T480-540q25 0 42.5 17.5T540-480q0 25-17.5 42.5T480-420Zm0 340q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Zm0-320Z" />
+										</svg>
+									</span>
+								)
+							}
+						</a>
 					</h2>
 
 					<div class="mb-10 grid grid-cols-2 items-start justify-between gap-x-5 gap-y-10">
