@@ -46,9 +46,9 @@ import SearchIcon from "@icons/Search.astro"
 				{
 					SELECT_REGIONS.map((region) => {
 						return (
-							<li class="w-full max-w-full px-6 py-2 transition-colors duration-300 ease-in-out first:pt-4 last:pb-4 hover:bg-dark-200/40">
+							<li class="w-full max-w-full transition-colors duration-300 ease-in-out first:pt-4 last:pb-4 hover:bg-dark-200/40">
 								<button
-									class="hover: w-full text-left"
+									class="hover: w-full px-6 py-2 text-left"
 									data-filter-select={`region-${region.value}`}
 								>
 									<span class="pointer-events-none text-sm">{region.name}</span>
