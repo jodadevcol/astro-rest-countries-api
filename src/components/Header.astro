@@ -6,6 +6,7 @@ import MoonSolid from "@icons/MoonSolid.astro"
 <header
 	class="bg-white px-5 dark:bg-dark-100 lg:px-10"
 	style="filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.03));"
+	transition:persist
 >
 	<div class="mx-auto max-w-screen-xl py-6">
 		<div class="flex items-center justify-between">
@@ -30,19 +31,7 @@ import MoonSolid from "@icons/MoonSolid.astro"
 </header>
 
 <script>
-	function hasDarkMode() {
-		return window.localStorage.getItem("__DARK_MODE__") === "true" ? true : false
-	}
-
-	function setDarkMode({ isDark }: { isDark: boolean }) {
-		if (!isDark) {
-			document.documentElement.classList.remove("dark")
-			window.localStorage.setItem("__DARK_MODE__", "false")
-		} else {
-			document.documentElement.classList.add("dark")
-			window.localStorage.setItem("__DARK_MODE__", "true")
-		}
-	}
+	import { hasDarkMode, setDarkMode } from "@tools/dark-mode.ts"
 
 	document.addEventListener("astro:after-swap", () => {
 		setDarkMode({ isDark: hasDarkMode() })
