@@ -17,10 +17,10 @@ const countries = await GETAllCountriesLocal()
 
 					return (
 						<li
-							data-country-name={name.common.toLocaleLowerCase().trim()}
-							data-country-region={region.toLocaleLowerCase()}
 							class="h-full overflow-hidden rounded-md"
 							style="filter: drop-shadow(0px 0px 12px rgba(0, 0, 0, 0.03));"
+							data-country-name={name.common.toLocaleLowerCase().trim()}
+							data-country-region={region.toLocaleLowerCase()}
 						>
 							<CardCountry
 								country={{

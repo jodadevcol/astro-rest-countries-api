@@ -1,8 +1,9 @@
 ---
+import { slide, ViewTransitions } from "astro:transitions"
+
+import Footer from "@components/Footer.astro"
+import Header from "@components/Header.astro"
 import "@fontsource-variable/nunito-sans"
-import { ViewTransitions } from "astro:transitions"
-import Footer from "../components/Footer.astro"
-import Header from "../components/Header.astro"
 
 interface Props {
 	title: string
@@ -11,7 +12,7 @@ interface Props {
 const { title } = Astro.props
 ---
 
-<html lang="en" class="dark">
+<html lang="en" class="opacity-1 dark">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="ico" href="/favicon.ico" />
@@ -24,7 +25,7 @@ const { title } = Astro.props
 		<div class="app flex min-h-screen flex-col gap-y-20">
 			<Header />
 
-			<main class="px-5 lg:px-10">
+			<main class="px-5 lg:px-10" transition:animate={slide({ duration: "0.5s" })}>
 				<div class="mx-auto max-w-screen-xl">
 					<slot />
 				</div>
@@ -32,5 +33,42 @@ const { title } = Astro.props
 
 			<Footer />
 		</div>
+
+		<style is:global>
+			@supports selector(::-webkit-scrollbar) {
+				@media (hover: hover) {
+					::-webkit-scrollbar {
+						width: 10px;
+						border-radius: 10px;
+					}
+
+					::-webkit-scrollbar-thumb {
+						border-radius: 10px;
+						background-color: theme("colors.dark.100");
+						border: 2px solid transparent;
+						background-clip: content-box;
+					}
+
+					::-webkit-scrollbar-thumb:active {
+						background-color: #666;
+					}
+
+					::-webkit-scrollbar-track {
+						background: var(--background-image);
+					}
+
+					::-webkit-scrollbar-corner {
+						background: var(--background-image);
+					}
+				}
+			}
+
+			@supports not selector(::-webkit-scrollbar) {
+				* {
+					scrollbar-color: theme("colors.dark.200") transparent;
+					scrollbar-width: thin;
+				}
+			}
+		</style>
 	</body></html
 >
